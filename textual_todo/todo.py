@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
 from textual.containers import Container, ScrollableContainer
-from textual.widgets import Header, Footer, Button, Static
+from textual.widgets import Button, Footer, Header, Static
 
 
 class CurrentTimeDisplay(Static):
@@ -15,6 +15,7 @@ class CurrentTimeDisplay(Static):
         """Render the widget."""
         return f"[b]{self.time}[/b]"
 
+
 class ElapsedTimeDisplay(Static):
     pass
     """A widget to display the elapsed time."""
@@ -27,13 +28,15 @@ class ElapsedTimeDisplay(Static):
     # def render(self) -> str:
     #     """Render the widget."""
     #     return f"[b]{self.time}[/b]"
-    
+
+
 class Clock(Static):
     """A clock widget."""
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the stopwatch."""
         yield CurrentTimeDisplay()
+
 
 class Stopwatch(Static):
     """A stopwatch widget."""
@@ -44,6 +47,7 @@ class Stopwatch(Static):
         yield Button("Stop", id="stop", variant="error")
         yield Button("Reset", id="reset")
         yield ElapsedTimeDisplay("00:00:00.00")
+
 
 class StopwatchApp(App):
     """A Textual app to manage stopwatches."""
@@ -57,6 +61,9 @@ class StopwatchApp(App):
         """Create child widgets for the app."""
         yield Header()
         yield Footer()
+        yield Container(
+            Clock(),
+        )
         yield ScrollableContainer(
             Clock(),
             Stopwatch(),
@@ -67,7 +74,7 @@ class StopwatchApp(App):
     def action_toggle_dark(self) -> None:
         """An action to toggle dark mode."""
         self.dark = not self.dark
-        
+
     def action_quit_program(self) -> None:
         """An action to quit the program."""
         self.exit()
